@@ -31,6 +31,27 @@ public class ControllerPersonaggio : MonoBehaviour
         vert = Input.GetAxis("Vertical");
         attacca = Input.GetButtonDown("Fire1");
         Debug.Log(attacca);
+
+        bool cammina = (oriz != 0 || vert != 0);
+        if (attacca)
+        {
+            anim.SetTrigger("attacca");
+        }
+        //anim.SetFloat("x", oriz);
+        if (cammina)
+        {
+            anim.SetFloat("y", Mathf.Sqrt((vert * vert) + (oriz * oriz)));
+            float myAngle = Mathf.Round(Mathf.Atan2(oriz, vert) * Mathf.Rad2Deg);
+            float bodyRotation = myAngle + Camera.main.transform.eulerAngles.y;
+            player.transform.eulerAngles = Vector3.Lerp(player.transform.eulerAngles,
+                new Vector3(
+                    player.transform.eulerAngles.x,
+                    bodyRotation,
+                    player.transform.eulerAngles.z
+            ),
+                rotSpeed);
+            //Debug.Log("X: " + oriz + " \nY: " + vert);
+        }
         // print("ORIZ: " + oriz);
         // print("VERT: " + vert);
 
@@ -58,31 +79,6 @@ public class ControllerPersonaggio : MonoBehaviour
         anim.SetBool("salto", salto);*/
     }
 
-    float prevAngle =0;
-    void FixedUpdate()
-    {
-        bool cammina = (oriz != 0 || vert != 0);
-        if (attacca)
-        {
-            anim.SetTrigger("attacca");
-        }
-        //anim.SetFloat("x", oriz);
-        if(cammina) {
-            anim.SetFloat("y", Mathf.Sqrt( (vert * vert) + (oriz * oriz) ));
-            float myAngle = Mathf.Round(Mathf.Atan2(oriz, vert) * Mathf.Rad2Deg);
-            float bodyRotation = myAngle + Camera.main.transform.eulerAngles.y;
-
-            player.transform.eulerAngles = Vector3.Lerp(player.transform.eulerAngles,
-                new Vector3(
-                    player.transform.eulerAngles.x,
-                    bodyRotation,
-                    player.transform.eulerAngles.z
-            ),
-                rotSpeed);
-            //Debug.Log("X: " + oriz + " \nY: " + vert);
-        }
-        
-    }
     
     
 }
