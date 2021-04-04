@@ -22,13 +22,15 @@ public class ControllerPersonaggio : MonoBehaviour
 
 
     private float oriz, vert;
+    bool attacca;
     // Update is called once per frame
     void Update()
     {
 
         oriz = Input.GetAxis("Horizontal");
         vert = Input.GetAxis("Vertical");
-        
+        attacca = Input.GetButtonDown("Fire1");
+        Debug.Log(attacca);
         // print("ORIZ: " + oriz);
         // print("VERT: " + vert);
 
@@ -60,7 +62,10 @@ public class ControllerPersonaggio : MonoBehaviour
     void FixedUpdate()
     {
         bool cammina = (oriz != 0 || vert != 0);
-        anim.SetBool("cammina", cammina);
+        if (attacca)
+        {
+            anim.SetTrigger("attacca");
+        }
         //anim.SetFloat("x", oriz);
         if(cammina) {
             anim.SetFloat("y", Mathf.Sqrt( (vert * vert) + (oriz * oriz) ));
@@ -74,7 +79,7 @@ public class ControllerPersonaggio : MonoBehaviour
                     player.transform.eulerAngles.z
             ),
                 rotSpeed);
-            Debug.Log("X: " + oriz + " \nY: " + vert);
+            //Debug.Log("X: " + oriz + " \nY: " + vert);
         }
         
     }
