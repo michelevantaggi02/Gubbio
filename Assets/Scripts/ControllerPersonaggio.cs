@@ -30,7 +30,10 @@ public class ControllerPersonaggio : MonoBehaviour
         oriz = Input.GetAxis("Horizontal");
         vert = Input.GetAxis("Vertical");
         attacca = Input.GetButtonDown("Fire1");
-        Debug.Log(attacca);
+        bool tieni = Input.GetButton("Fire2");
+        anim.SetBool("blocca", tieni);
+        Debug.Log(tieni);
+        //Debug.Log(attacca);
 
         bool cammina = (oriz != 0 || vert != 0);
         if (attacca)
@@ -41,15 +44,24 @@ public class ControllerPersonaggio : MonoBehaviour
         if (cammina)
         {
             anim.SetFloat("y", Mathf.Sqrt((vert * vert) + (oriz * oriz)));
-            float myAngle = Mathf.Round(Mathf.Atan2(oriz, vert) * Mathf.Rad2Deg);
-            float bodyRotation = myAngle + Camera.main.transform.eulerAngles.y;
-            player.transform.eulerAngles = Vector3.Lerp(player.transform.eulerAngles,
-                new Vector3(
-                    player.transform.eulerAngles.x,
-                    bodyRotation,
-                    player.transform.eulerAngles.z
-            ),
-                rotSpeed);
+            if (!tieni)
+            {
+                
+                float myAngle = Mathf.Round(Mathf.Atan2(oriz, vert) * Mathf.Rad2Deg);
+                float bodyRotation = myAngle + Camera.main.transform.eulerAngles.y;
+                player.transform.eulerAngles = Vector3.Lerp(player.transform.eulerAngles,
+                    new Vector3(
+                        player.transform.eulerAngles.x,
+                        bodyRotation,
+                        player.transform.eulerAngles.z
+                ),
+                    rotSpeed);
+            }
+            else
+            {
+                Transform target = FieldOfView.instance.visibleTargets[0];
+                player.transform.LookAt(new Vector3(target.position.x, player.transform.position.y, target.position.z));
+            }
             //Debug.Log("X: " + oriz + " \nY: " + vert);
         }
         // print("ORIZ: " + oriz);
