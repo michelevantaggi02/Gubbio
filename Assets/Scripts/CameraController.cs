@@ -11,7 +11,6 @@ public class CameraController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
     public float lerpspeed = 0.025f;
-    float rotation = 0;
     public float rotationSpeed = 500f;
     Vector3 velocity = Vector3.zero;
     Vector3 prevpos;

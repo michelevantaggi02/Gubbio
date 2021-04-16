@@ -21,18 +21,17 @@ public class ControllerPersonaggio : MonoBehaviour
     public float rotSpeed = 1f;
 
 
-    private float oriz, vert;
-    bool attacca;
+    
     // Update is called once per frame
     void Update()
     {
 
-        oriz = Input.GetAxis("Horizontal");
-        vert = Input.GetAxis("Vertical");
-        attacca = Input.GetButtonDown("Fire1");
+        float oriz = Input.GetAxis("Horizontal");
+        float vert = Input.GetAxis("Vertical");
+        bool attacca = Input.GetButtonDown("Fire1");
         bool tieni = Input.GetButton("Fire2");
         anim.SetBool("blocca", tieni);
-        Debug.Log(tieni);
+        //Debug.Log(tieni);
         //Debug.Log(attacca);
 
         bool cammina = (oriz != 0 || vert != 0);
@@ -43,10 +42,10 @@ public class ControllerPersonaggio : MonoBehaviour
         //anim.SetFloat("x", oriz);
         if (cammina)
         {
-            anim.SetFloat("y", Mathf.Sqrt((vert * vert) + (oriz * oriz)));
+            
             if (!tieni)
             {
-                
+                anim.SetFloat("y", Mathf.Sqrt((vert * vert) + (oriz * oriz)));
                 float myAngle = Mathf.Round(Mathf.Atan2(oriz, vert) * Mathf.Rad2Deg);
                 float bodyRotation = myAngle + Camera.main.transform.eulerAngles.y;
                 player.transform.eulerAngles = Vector3.Lerp(player.transform.eulerAngles,
@@ -59,8 +58,14 @@ public class ControllerPersonaggio : MonoBehaviour
             }
             else
             {
-                Transform target = FieldOfView.instance.visibleTargets[0];
-                player.transform.LookAt(new Vector3(target.position.x, player.transform.position.y, target.position.z));
+                anim.SetFloat("x", oriz);
+                anim.SetFloat("y", vert);
+                if(FieldOfView.instance.visibleTargets.Count > 0)
+                {
+                    Transform target = FieldOfView.instance.visibleTargets[0];
+                    player.transform.LookAt(new Vector3(target.position.x, player.transform.position.y, target.position.z));
+                }
+                
             }
             //Debug.Log("X: " + oriz + " \nY: " + vert);
         }
