@@ -1,28 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Cinemachine;
 public class CameraController : MonoBehaviour
 {
-    public GameObject Player;
-    Vector3 offset;
+    public CinemachineFreeLook freeLook;
     void Start() {
-        offset = transform.position - Player.transform.position;
-        Cursor.lockState = CursorLockMode.Locked;
+        /*freeLook.m_XAxis.m_Recentering.m_RecenteringTime = 0.1f;
+        freeLook.m_XAxis.m_Recentering.m_WaitTime = 0f;
+        freeLook.m_XAxis.m_Recentering.m_enabled = true;*/
     }
-    public float lerpspeed = 0.025f;
-    public float rotationSpeed = 500f;
-    Vector3 velocity = Vector3.zero;
-    Vector3 prevpos;
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
+        bool tieni = Input.GetButtonDown("Fire2");
+        if (tieni)
+        {
 
-        transform.RotateAround(Player.transform.position, Vector3.up, mouseX);
-        
-        transform.LookAt(Vector3.Slerp(prevpos, Player.transform.position, lerpspeed));
-        transform.position = Vector3.SmoothDamp(transform.position, Player.transform.position + offset,ref velocity, 0.05f);
-        prevpos = Player.transform.position;
+            //freeLook.m_XAxis.Value = 0;
+            //freeLook.m_YAxis.m_Recentering.RecenterNow();
+            freeLook.m_YAxisRecentering.RecenterNow();
+            freeLook.m_RecenterToTargetHeading.RecenterNow();
+            //Debug.Log(freeLook.m_XAxis.Value);
+        }
     }
 }

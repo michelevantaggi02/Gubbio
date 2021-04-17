@@ -60,6 +60,7 @@ public class ControllerPersonaggio : MonoBehaviour
             {
                 anim.SetFloat("x", oriz);
                 anim.SetFloat("y", vert);
+                FieldOfView.instance.FindVisibleTargets();
                 if(FieldOfView.instance.visibleTargets.Count > 0)
                 {
                     Transform target = FieldOfView.instance.visibleTargets[0];

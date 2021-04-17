@@ -18,7 +18,7 @@ public class FieldOfView : MonoBehaviour
 	void Start()
 	{
 		instance = this;
-		StartCoroutine("FindTargetsWithDelay", .2f);
+		//StartCoroutine("FindTargetsWithDelay", .2f);
 	}
 
 
@@ -31,7 +31,7 @@ public class FieldOfView : MonoBehaviour
 		}
 	}
 
-	void FindVisibleTargets()
+	public void FindVisibleTargets()
 	{
 		visibleTargets.Clear();
 		Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
